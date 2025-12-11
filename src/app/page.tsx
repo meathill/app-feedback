@@ -1,52 +1,129 @@
-import Image from "next/image";
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { Feedback } from '@/types';
+import Link from 'next/link';
 
-export default function Home() {
-	return (
-		<div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-			<main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-				<Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
-				<ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-					<li className="mb-2 tracking-[-.01em]">
-						Get started by editing{" "}
-						<code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-							src/app/page.tsx
-						</code>
-						.
-					</li>
-					<li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-				</ol>
+export const runtime = 'edge';
 
-				<div className="flex gap-4 items-center flex-col sm:flex-row">
-					<a
-						className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-						href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Read our docs
-					</a>
-				</div>
-			</main>
-			<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-					Learn
-				</a>
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-					Go to nextjs.org →
-				</a>
-			</footer>
-		</div>
-	);
+export default async function Home(props: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const searchParams = await props.searchParams;
+  const { env } = getCloudflareContext();
+  const page = parseInt((searchParams.page as string) || '1');
+  const limit = 20;
+  const offset = (page - 1) * limit;
+
+  // Fetch data
+  const { results: feedbacks } = await env.DB.prepare(
+    `SELECT 
+      id, 
+      app_id as appId, 
+      version, 
+      content, 
+      contact, 
+      device_info as deviceInfo, 
+      location, 
+      status, 
+      created_at as createdAt 
+     FROM feedbacks 
+     ORDER BY created_at DESC 
+     LIMIT ? OFFSET ?`,
+  )
+    .bind(limit, offset)
+    .all<Feedback>();
+
+  // Get total count for pagination
+  // D1 .run() returns meta, .all() returns results. But "SELECT COUNT..." returns a row.
+  // Actually .run() is for write usually, but can be used. But .all() is better for reading.
+  // Let's use .all() for count as well.
+
+  const { results: countResults } = await env.DB.prepare('SELECT COUNT(*) as total FROM feedbacks').all<{
+    total: number;
+  }>();
+
+  const total = countResults[0]?.total || 0;
+  const totalPages = Math.ceil(total / limit);
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
+      <div className="max-w-7xl mx-auto">
+        <header className="mb-8 flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">App Feedbacks</h1>
+          <div className="text-sm text-gray-500 dark:text-gray-400">Total: {total}</div>
+        </header>
+
+        <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
+          <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+            {feedbacks.length === 0 ? (
+              <li className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No feedbacks found.</li>
+            ) : (
+              feedbacks.map((feedback) => (
+                <li key={feedback.id}>
+                  <div className="px-4 py-4 sm:px-6">
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm font-medium text-indigo-600 dark:text-indigo-400 truncate">
+                        {feedback.appId}
+                        {feedback.version && <span className="ml-2 text-gray-500">v{feedback.version}</span>}
+                      </div>
+                      <div className="ml-2 flex-shrink-0 flex">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            feedback.status === 'processed'
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                              : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                          }`}
+                        >
+                          {feedback.status}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2 text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">
+                      {feedback.content}
+                    </div>
+                    <div className="mt-4 flex justify-between items-center">
+                      <div className="sm:flex">
+                        {feedback.contact && (
+                          <div className="mr-6 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            📧 {feedback.contact}
+                          </div>
+                        )}
+                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                          📅 {new Date(feedback.createdAt).toLocaleString()}
+                        </div>
+                      </div>
+                      <div className="text-xs text-gray-400">ID: {feedback.id}</div>
+                    </div>
+                  </div>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+
+        <div className="mt-6 flex justify-between items-center">
+          <div>
+            {page > 1 && (
+              <Link
+                href={`/?page=${page - 1}`}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
+              >
+                Previous
+              </Link>
+            )}
+          </div>
+          <div className="text-sm text-gray-700 dark:text-gray-300">
+            Page {page} of {totalPages || 1}
+          </div>
+          <div>
+            {page < totalPages && (
+              <Link
+                href={`/?page=${page + 1}`}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
+              >
+                Next
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
