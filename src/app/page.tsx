@@ -2,8 +2,6 @@ import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { Feedback } from '@/types';
 import Link from 'next/link';
 
-export const runtime = 'edge';
-
 export default async function Home(props: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const searchParams = await props.searchParams;
   const { env } = getCloudflareContext();
