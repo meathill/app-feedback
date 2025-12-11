@@ -63,7 +63,7 @@ export default async function Home(props: { searchParams: Promise<{ [key: string
                         {feedback.appId}
                         {feedback.version && <span className="ml-2 text-gray-500">v{feedback.version}</span>}
                       </div>
-                      <div className="ml-2 flex-shrink-0 flex">
+                      <div className="ml-2 shrink-0 flex">
                         <span
                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                             feedback.status === 'processed'
