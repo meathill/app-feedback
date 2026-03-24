@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default async function Home(props: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const searchParams = await props.searchParams;
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext();
   const page = parseInt((searchParams.page as string) || '1');
   const limit = 20;
   const offset = (page - 1) * limit;
