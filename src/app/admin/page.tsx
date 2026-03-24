@@ -100,7 +100,7 @@ export default async function Home(props: { searchParams: Promise<{ [key: string
           <div>
             {page > 1 && (
               <Link
-                href={`/?page=${page - 1}`}
+                href={`/admin?page=${page - 1}`}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
               >
                 Previous
@@ -113,7 +113,7 @@ export default async function Home(props: { searchParams: Promise<{ [key: string
           <div>
             {page < totalPages && (
               <Link
-                href={`/?page=${page + 1}`}
+                href={`/admin?page=${page + 1}`}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
               >
                 Next
