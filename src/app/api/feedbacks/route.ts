@@ -11,10 +11,7 @@ export async function POST(request: Request) {
 
     // Basic Validation
     if (!appId || !content) {
-      return NextResponse.json(
-        { error: 'Missing required fields: appId and content are required.' },
-        { status: 400, },
-      );
+      return NextResponse.json({ error: 'Missing required fields: appId and content are required.' }, { status: 400 });
     }
 
     // Insert into D1
@@ -56,9 +53,9 @@ ${content}
       }).catch(console.error);
     }
 
-    return NextResponse.json({ success: true }, { status: 201, });
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
     console.error('Error processing feedback:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500, });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
