@@ -14,6 +14,17 @@ import {
   XIcon,
   SaveIcon,
 } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogClose,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogPopup,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 
 interface FeedbackItemProps {
   feedback: Feedback;
@@ -28,7 +39,6 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesValue, setNotesValue] = useState(feedback.notes || '');
   const [showTagPicker, setShowTagPicker] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const statusCfg = STATUS_CONFIG[feedback.status];
 
@@ -53,13 +63,8 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
     updateFeedbackTags(feedback.id, next);
   }
 
-  function handleDelete() {
-    if (!confirmDelete) {
-      setConfirmDelete(true);
-      return;
-    }
-    deleteFeedback(feedback.id);
-    setConfirmDelete(false);
+  async function handleConfirmDelete() {
+    await deleteFeedback(feedback.id);
   }
 
   return (
@@ -236,15 +241,31 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
             </button>
           )}
 
-          <button
-            type="button"
-            onClick={handleDelete}
-            onBlur={() => setConfirmDelete(false)}
-            className={`p-1.5 rounded ${confirmDelete ? 'text-red-600 bg-red-50 dark:bg-red-900/30' : 'text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30'}`}
-            title={confirmDelete ? '确认删除？再点一次' : '删除'}
-          >
-            <Trash2Icon size={16} />
-          </button>
+          <AlertDialog>
+            <AlertDialogTrigger
+              render={
+                <button
+                  type="button"
+                  className="p-1.5 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30"
+                  title="删除"
+                />
+              }
+            >
+              <Trash2Icon size={16} />
+            </AlertDialogTrigger>
+            <AlertDialogPopup>
+              <AlertDialogHeader>
+                <AlertDialogTitle>确认删除</AlertDialogTitle>
+                <AlertDialogDescription>确定要删除这条反馈吗？删除后可在后台恢复。</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogClose render={<Button variant="ghost" />}>取消</AlertDialogClose>
+                <AlertDialogClose render={<Button variant="destructive" onClick={handleConfirmDelete} />}>
+                  删除
+                </AlertDialogClose>
+              </AlertDialogFooter>
+            </AlertDialogPopup>
+          </AlertDialog>
         </div>
       </div>
     </li>
