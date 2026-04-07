@@ -1,7 +1,3 @@
-/**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
- */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "app-feedback",
@@ -23,7 +19,7 @@
   "observability": {
     "enabled": true
   },
-  "placement": { "mode": "smart" }
-
-  // "vars": { "MY_VARIABLE": "production_value" }
+  "placement": {
+    "mode": "smart"
+  }
 }

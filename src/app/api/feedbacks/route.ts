@@ -1,16 +1,86 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare';
-import { NextResponse } from 'next/server';
-import { FeedbackSubmission } from '@/types';
+import { NextRequest, NextResponse } from 'next/server';
+import type { Feedback, FeedbackSubmission } from '@/types';
+import { PAGE_SIZE } from '@/constants';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Max-Age': '86400',
 };
 
 export function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+}
+
+export async function GET(request: NextRequest) {
+  const { env } = await getCloudflareContext();
+  const searchParams = request.nextUrl.searchParams;
+
+  const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+  const limit = Math.min(100, parseInt(searchParams.get('limit') || String(PAGE_SIZE)));
+  const offset = (page - 1) * limit;
+  const appId = searchParams.get('app_id') || null;
+  const status = searchParams.get('status') || null;
+  const tag = searchParams.get('tag') || null;
+
+  try {
+    // 构建动态查询
+    const conditions: string[] = ["status != 'deleted'"];
+    const params: (string | number)[] = [];
+
+    if (appId) {
+      conditions.push('app_id = ?');
+      params.push(appId);
+    }
+    if (status) {
+      conditions.push('status = ?');
+      params.push(status);
+    }
+    if (tag) {
+      conditions.push('EXISTS (SELECT 1 FROM json_each(tags) WHERE json_each.value = ?)');
+      params.push(tag);
+    }
+
+    const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    // 获取总数
+    const countSql = `SELECT COUNT(*) as total FROM feedbacks ${where}`;
+    const { results: countResults } = await env.DB.prepare(countSql)
+      .bind(...params)
+      .all<{ total: number }>();
+    const total = countResults[0]?.total || 0;
+
+    // 获取数据
+    const dataSql = `SELECT id, app_id as appId, version, content, contact, device_info as deviceInfo, location, status, notes, tags, created_at as createdAt FROM feedbacks ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+    const { results } = await env.DB.prepare(dataSql)
+      .bind(...params, limit, offset)
+      .all<Feedback & { tags: string }>();
+
+    // 解析 tags JSON
+    const feedbacks = results.map((f) => ({
+      ...f,
+      tags: typeof f.tags === 'string' ? JSON.parse(f.tags) : f.tags || [],
+    }));
+
+    // 获取所有应用列表
+    const { results: appResults } = await env.DB.prepare('SELECT DISTINCT app_id FROM feedbacks ORDER BY app_id').all<{
+      app_id: string;
+    }>();
+    const apps = appResults.map((r) => r.app_id);
+
+    return NextResponse.json({
+      data: feedbacks,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+      apps,
+    });
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {

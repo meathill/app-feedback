@@ -1,3 +1,5 @@
+export type FeedbackStatus = 'pending' | 'processed' | 'archived' | 'deleted';
+
 export interface Feedback {
   id: number;
   appId: string;
@@ -6,7 +8,9 @@ export interface Feedback {
   contact?: string;
   deviceInfo?: object;
   location?: object;
-  status: 'pending' | 'processed';
+  status: FeedbackStatus;
+  notes?: string | null;
+  tags: string[];
   createdAt: number;
 }
 

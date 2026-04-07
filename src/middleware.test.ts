@@ -12,7 +12,7 @@ describe('CORS middleware', () => {
 
     expect(response.status).toBe(204);
     expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*');
-    expect(response.headers.get('Access-Control-Allow-Methods')).toBe('GET, POST, OPTIONS');
+    expect(response.headers.get('Access-Control-Allow-Methods')).toBe('GET, POST, PATCH, DELETE, OPTIONS');
     expect(response.headers.get('Access-Control-Allow-Headers')).toBe('Content-Type');
     expect(response.headers.get('Access-Control-Max-Age')).toBe('86400');
   });
@@ -21,7 +21,7 @@ describe('CORS middleware', () => {
     const response = middleware(createRequest('POST', '/api/feedbacks'));
 
     expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*');
-    expect(response.headers.get('Access-Control-Allow-Methods')).toBe('GET, POST, OPTIONS');
+    expect(response.headers.get('Access-Control-Allow-Methods')).toBe('GET, POST, PATCH, DELETE, OPTIONS');
   });
 
   it('should add CORS headers to GET requests', () => {
