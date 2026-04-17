@@ -88,16 +88,19 @@ export async function POST(request: Request) {
 
   try {
     const body = (await request.json()) as FeedbackSubmission;
-    const { appId, version, content, contact, deviceInfo, location } = body;
+    const { appId, version, content, contact, deviceInfo, location, tags } = body;
 
     // Basic Validation
     if (!appId || !content) {
       return NextResponse.json({ error: 'Missing required fields: appId and content are required.' }, { status: 400 });
     }
 
+    const normalizedTags = Array.isArray(tags) ? tags.filter((t) => typeof t === 'string' && t.trim()) : [];
+    const isUninstallSurvey = normalizedTags.includes('uninstall-survey');
+
     // Insert into D1
     const stmt = env.DB.prepare(
-      `INSERT INTO feedbacks (app_id, version, content, contact, device_info, location) VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO feedbacks (app_id, version, content, contact, device_info, location, tags) VALUES (?, ?, ?, ?, ?, ?, ?)`,
     );
 
     await stmt
@@ -108,15 +111,19 @@ export async function POST(request: Request) {
         contact || null,
         deviceInfo ? JSON.stringify(deviceInfo) : null,
         location ? JSON.stringify(location) : null,
+        JSON.stringify(normalizedTags),
       )
       .run();
 
     // Send Telegram Notification (Fire and Forget)
     if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
+      const header = isUninstallSurvey ? 'Uninstall Survey Received!' : 'New Feedback Received!';
+      const reasonTags = normalizedTags.filter((t) => t !== 'uninstall-survey');
+      const reasonsLine = isUninstallSurvey && reasonTags.length ? `\nReasons: ${reasonTags.join(', ')}` : '';
       const message = `
-New Feedback Received!
+${header}
 App: ${appId} ${version ? `(${version})` : ''}
-Contact: ${contact || 'N/A'}
+Contact: ${contact || 'N/A'}${reasonsLine}
 Content:
 ${content}
       `.trim();

@@ -68,6 +68,7 @@ describe('POST /api/feedbacks', () => {
       'user@example.com',
       null, // deviceInfo
       null, // location
+      '[]', // tags
     );
     expect(mockRun).toHaveBeenCalled();
 
@@ -95,6 +96,44 @@ describe('POST /api/feedbacks', () => {
 
     await POST(request);
 
-    expect(mockBind).toHaveBeenCalledWith('com.example.app', null, 'Bug report', null, null, null);
+    expect(mockBind).toHaveBeenCalledWith('com.example.app', null, 'Bug report', null, null, null, '[]');
+  });
+
+  it('should persist tags and mark telegram as uninstall survey', async () => {
+    const request = new Request('http://localhost/api/feedbacks', {
+      method: 'POST',
+      body: JSON.stringify({
+        appId: 'ins-downloader',
+        content: '[Uninstall Survey] ...',
+        tags: ['uninstall-survey', 'not-working', 'too-slow'],
+      }),
+    });
+
+    const response = await POST(request);
+    expect(response.status).toBe(201);
+
+    expect(mockBind).toHaveBeenCalledWith(
+      'ins-downloader',
+      null,
+      '[Uninstall Survey] ...',
+      null,
+      null,
+      null,
+      JSON.stringify(['uninstall-survey', 'not-working', 'too-slow']),
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.telegram.org/bottest-token/sendMessage',
+      expect.objectContaining({
+        method: 'POST',
+        body: expect.stringContaining('Uninstall Survey Received!'),
+      }),
+    );
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.telegram.org/bottest-token/sendMessage',
+      expect.objectContaining({
+        body: expect.stringContaining('Reasons: not-working, too-slow'),
+      }),
+    );
   });
 });

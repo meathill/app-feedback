@@ -21,4 +21,5 @@ export interface FeedbackSubmission {
   contact?: string;
   deviceInfo?: object;
   location?: object;
+  tags?: string[];
 }
