@@ -4,6 +4,10 @@ import { useFeedbackStore } from '@/store/feedback-store';
 import { FEEDBACK_TAGS, STATUS_CONFIG } from '@/constants';
 import type { FeedbackStatus } from '@/types';
 import { RefreshCwIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const ALL = '__all__';
 
 export default function AdminToolbar() {
   const apps = useFeedbackStore((s) => s.apps);
@@ -16,63 +20,63 @@ export default function AdminToolbar() {
   const fetchFeedbacks = useFeedbackStore((s) => s.fetchFeedbacks);
 
   function handleRefresh() {
-    // 重新加载时也刷新 apps 列表
     useFeedbackStore.setState({ apps: [] });
     fetchFeedbacks();
   }
 
   return (
     <div className="mb-6 flex flex-wrap gap-4 items-center">
-      <select
-        value={filterApp || ''}
-        onChange={(e) => setFilterApp(e.target.value || null)}
-        className="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm px-3 py-2 text-gray-700 dark:text-gray-200"
-      >
-        <option value="">全部应用</option>
-        {apps.map((app) => (
-          <option key={app} value={app}>
-            {app}
-          </option>
-        ))}
-      </select>
-
-      <select
-        value={filterStatus || ''}
-        onChange={(e) => setFilterStatus((e.target.value as FeedbackStatus) || null)}
-        className="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm px-3 py-2 text-gray-700 dark:text-gray-200"
-      >
-        <option value="">全部状态</option>
-        {Object.entries(STATUS_CONFIG)
-          .filter(([key]) => key !== 'deleted')
-          .map(([key, cfg]) => (
-            <option key={key} value={key}>
-              {cfg.label}
-            </option>
+      <Select value={filterApp ?? ALL} onValueChange={(v: string | null) => setFilterApp(v === ALL ? null : v)}>
+        <SelectTrigger className="min-w-36">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPopup>
+          <SelectItem value={ALL}>全部应用</SelectItem>
+          {apps.map((app) => (
+            <SelectItem key={app} value={app}>
+              {app}
+            </SelectItem>
           ))}
-      </select>
+        </SelectPopup>
+      </Select>
 
-      <select
-        value={filterTag || ''}
-        onChange={(e) => setFilterTag(e.target.value || null)}
-        className="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm px-3 py-2 text-gray-700 dark:text-gray-200"
+      <Select
+        value={filterStatus ?? ALL}
+        onValueChange={(v: string | null) => setFilterStatus(v === ALL ? null : (v as FeedbackStatus))}
       >
-        <option value="">全部标签</option>
-        {FEEDBACK_TAGS.map((tag) => (
-          <option key={tag.value} value={tag.value}>
-            {tag.label}
-          </option>
-        ))}
-      </select>
+        <SelectTrigger className="min-w-32">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPopup>
+          <SelectItem value={ALL}>全部状态</SelectItem>
+          {Object.entries(STATUS_CONFIG)
+            .filter(([key]) => key !== 'deleted')
+            .map(([key, cfg]) => (
+              <SelectItem key={key} value={key}>
+                {cfg.label}
+              </SelectItem>
+            ))}
+        </SelectPopup>
+      </Select>
 
-      <button
-        type="button"
-        onClick={handleRefresh}
-        className="inline-flex items-center gap-1 px-3 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
-        title="刷新"
-      >
-        <RefreshCwIcon size={16} />
+      <Select value={filterTag ?? ALL} onValueChange={(v: string | null) => setFilterTag(v === ALL ? null : v)}>
+        <SelectTrigger className="min-w-32">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPopup>
+          <SelectItem value={ALL}>全部标签</SelectItem>
+          {FEEDBACK_TAGS.map((tag) => (
+            <SelectItem key={tag.value} value={tag.value}>
+              {tag.label}
+            </SelectItem>
+          ))}
+        </SelectPopup>
+      </Select>
+
+      <Button variant="outline" size="sm" onClick={handleRefresh} title="刷新">
+        <RefreshCwIcon />
         刷新
-      </button>
+      </Button>
     </div>
   );
 }

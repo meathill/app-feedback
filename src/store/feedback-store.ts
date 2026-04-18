@@ -35,7 +35,7 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
   apps: [],
 
   filterApp: null,
-  filterStatus: null,
+  filterStatus: 'pending',
   filterTag: null,
 
   loading: false,

@@ -25,6 +25,8 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { Menu, MenuCheckboxItem, MenuPopup, MenuTrigger } from '@/components/ui/menu';
+import { Textarea } from '@/components/ui/textarea';
 
 interface FeedbackItemProps {
   feedback: Feedback;
@@ -38,7 +40,6 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
 
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesValue, setNotesValue] = useState(feedback.notes || '');
-  const [showTagPicker, setShowTagPicker] = useState(false);
 
   const statusCfg = STATUS_CONFIG[feedback.status];
 
@@ -103,35 +104,30 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
       <div className="mt-3">
         {editingNotes ? (
           <div className="flex flex-col gap-2">
-            <textarea
+            <Textarea
               value={notesValue}
               onChange={(e) => setNotesValue(e.target.value)}
               onKeyDown={handleNotesKeyDown}
               rows={3}
-              className="w-full text-sm rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="添加备注..."
               autoFocus
             />
             <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={handleSaveNotes}
-                className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded bg-indigo-600 text-white hover:bg-indigo-700"
-              >
-                <SaveIcon size={12} />
+              <Button size="xs" onClick={handleSaveNotes}>
+                <SaveIcon />
                 保存
-              </button>
-              <button
-                type="button"
+              </Button>
+              <Button
+                size="xs"
+                variant="outline"
                 onClick={() => {
                   setNotesValue(feedback.notes || '');
                   setEditingNotes(false);
                 }}
-                className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
               >
-                <XIcon size={12} />
+                <XIcon />
                 取消
-              </button>
+              </Button>
             </div>
           </div>
         ) : feedback.notes ? (
@@ -159,99 +155,83 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
         {/* 操作按钮 */}
         <div className="flex items-center gap-1">
           {!editingNotes && (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => {
                 setNotesValue(feedback.notes || '');
                 setEditingNotes(true);
               }}
-              className="p-1.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               title={feedback.notes ? '编辑备注' : '添加备注'}
             >
-              <MessageSquareIcon size={16} />
-            </button>
+              <MessageSquareIcon />
+            </Button>
           )}
 
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setShowTagPicker(!showTagPicker)}
-              className="p-1.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              title="管理标签"
-            >
-              <TagIcon size={16} />
-            </button>
-            {showTagPicker && (
-              <div className="absolute right-0 top-full mt-1 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg p-2 min-w-[120px]">
-                {FEEDBACK_TAGS.map((tag) => {
-                  const isActive = feedback.tags?.includes(tag.value);
-                  return (
-                    <button
-                      key={tag.value}
-                      type="button"
-                      onClick={() => handleToggleTag(tag.value)}
-                      className={`w-full text-left px-2 py-1 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${isActive ? 'font-semibold' : ''}`}
-                    >
-                      {isActive ? '✓ ' : '  '}
-                      {tag.label}
-                    </button>
-                  );
-                })}
-                <button
-                  type="button"
-                  onClick={() => setShowTagPicker(false)}
-                  className="w-full text-left px-2 py-1 text-xs text-gray-400 rounded hover:bg-gray-100 dark:hover:bg-gray-700 mt-1 border-t border-gray-100 dark:border-gray-700 pt-1"
+          <Menu>
+            <MenuTrigger render={<Button variant="ghost" size="icon-sm" title="管理标签" />}>
+              <TagIcon />
+            </MenuTrigger>
+            <MenuPopup align="end" className="min-w-[140px]">
+              {FEEDBACK_TAGS.map((tag) => (
+                <MenuCheckboxItem
+                  key={tag.value}
+                  checked={feedback.tags?.includes(tag.value) ?? false}
+                  onCheckedChange={() => handleToggleTag(tag.value)}
                 >
-                  关闭
-                </button>
-              </div>
-            )}
-          </div>
+                  {tag.label}
+                </MenuCheckboxItem>
+              ))}
+            </MenuPopup>
+          </Menu>
 
           {feedback.status === 'pending' && (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => updateFeedbackStatus(feedback.id, 'processed')}
-              className="p-1.5 rounded text-green-500 hover:text-green-700 hover:bg-green-50 dark:hover:bg-green-900/30"
+              className="text-green-500 hover:text-green-700 hover:bg-green-50 dark:hover:bg-green-900/30"
               title="标记已处理"
             >
-              <CheckCircleIcon size={16} />
-            </button>
+              <CheckCircleIcon />
+            </Button>
           )}
 
           {feedback.status !== 'archived' && (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => updateFeedbackStatus(feedback.id, 'archived')}
-              className="p-1.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               title="归档"
             >
-              <ArchiveIcon size={16} />
-            </button>
+              <ArchiveIcon />
+            </Button>
           )}
 
           {feedback.status === 'archived' && (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={() => updateFeedbackStatus(feedback.id, 'pending')}
-              className="p-1.5 rounded text-blue-500 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/30"
+              className="text-blue-500 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/30"
               title="恢复"
             >
-              <UndoIcon size={16} />
-            </button>
+              <UndoIcon />
+            </Button>
           )}
 
           <AlertDialog>
             <AlertDialogTrigger
               render={
-                <button
-                  type="button"
-                  className="p-1.5 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30"
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                   title="删除"
                 />
               }
             >
-              <Trash2Icon size={16} />
+              <Trash2Icon />
             </AlertDialogTrigger>
             <AlertDialogPopup>
               <AlertDialogHeader>

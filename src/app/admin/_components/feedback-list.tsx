@@ -2,6 +2,10 @@
 
 import { useEffect } from 'react';
 import { useFeedbackStore } from '@/store/feedback-store';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
+import { Spinner } from '@/components/ui/spinner';
+import { AlertCircleIcon } from 'lucide-react';
 import FeedbackItem from './feedback-item';
 
 export default function FeedbackList() {
@@ -16,9 +20,11 @@ export default function FeedbackList() {
 
   if (error) {
     return (
-      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 text-sm text-red-600 dark:text-red-400">
-        加载失败：{error}
-      </div>
+      <Alert variant="error">
+        <AlertCircleIcon />
+        <AlertTitle>加载失败</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
     );
   }
 
@@ -26,9 +32,19 @@ export default function FeedbackList() {
     <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
       <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
         {loading && feedbacks.length === 0 ? (
-          <li className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">加载中...</li>
+          <li className="px-6 py-12 flex items-center justify-center gap-2 text-gray-500 dark:text-gray-400">
+            <Spinner />
+            加载中...
+          </li>
         ) : feedbacks.length === 0 ? (
-          <li className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">暂无反馈</li>
+          <li className="px-6 py-12">
+            <Empty>
+              <EmptyHeader>
+                <EmptyTitle>暂无反馈</EmptyTitle>
+                <EmptyDescription>当前筛选条件下没有数据</EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          </li>
         ) : (
           feedbacks.map((feedback) => <FeedbackItem key={feedback.id} feedback={feedback} />)
         )}

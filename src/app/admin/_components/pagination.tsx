@@ -2,6 +2,7 @@
 
 import { useFeedbackStore } from '@/store/feedback-store';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function Pagination() {
   const page = useFeedbackStore((s) => s.page);
@@ -14,14 +15,10 @@ export default function Pagination() {
     <div className="mt-6 flex justify-between items-center">
       <div>
         {page > 1 && (
-          <button
-            type="button"
-            onClick={() => setPage(page - 1)}
-            className="inline-flex items-center gap-1 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
-          >
-            <ChevronLeftIcon size={16} />
+          <Button variant="outline" onClick={() => setPage(page - 1)}>
+            <ChevronLeftIcon />
             上一页
-          </button>
+          </Button>
         )}
       </div>
       <div className="text-sm text-gray-700 dark:text-gray-300">
@@ -29,14 +26,10 @@ export default function Pagination() {
       </div>
       <div>
         {page < totalPages && (
-          <button
-            type="button"
-            onClick={() => setPage(page + 1)}
-            className="inline-flex items-center gap-1 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
-          >
+          <Button variant="outline" onClick={() => setPage(page + 1)}>
             下一页
-            <ChevronRightIcon size={16} />
-          </button>
+            <ChevronRightIcon />
+          </Button>
         )}
       </div>
     </div>
