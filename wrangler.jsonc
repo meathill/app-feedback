@@ -5,6 +5,9 @@
   "compatibility_date": "2025-03-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "account_id": "fdc63eeea83ae8f5234357308b9a638b",
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://feedback.roudan.io"
+  },
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
