@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const MODEL = 'gemini-3-flash';
+const MODEL = 'gemini-3-flash-preview';
 
 const PROMPT_PREFIX = `Translate the following user feedback into English. Preserve meaning, tone, and line breaks. If it's already English, return it unchanged. Output only the translation, no preface, no quotes.
 
