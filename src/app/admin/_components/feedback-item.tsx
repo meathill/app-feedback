@@ -13,6 +13,8 @@ import {
   TagIcon,
   XIcon,
   SaveIcon,
+  LanguagesIcon,
+  Loader2Icon,
 } from 'lucide-react';
 import {
   AlertDialog,
@@ -37,9 +39,11 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
   const deleteFeedback = useFeedbackStore((s) => s.deleteFeedback);
   const updateFeedbackNotes = useFeedbackStore((s) => s.updateFeedbackNotes);
   const updateFeedbackTags = useFeedbackStore((s) => s.updateFeedbackTags);
+  const translateFeedback = useFeedbackStore((s) => s.translateFeedback);
 
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesValue, setNotesValue] = useState(feedback.notes || '');
+  const [isTranslating, setIsTranslating] = useState(false);
 
   const statusCfg = STATUS_CONFIG[feedback.status];
 
@@ -66,6 +70,16 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
 
   async function handleConfirmDelete() {
     await deleteFeedback(feedback.id);
+  }
+
+  async function handleTranslate() {
+    if (isTranslating) return;
+    setIsTranslating(true);
+    try {
+      await translateFeedback(feedback.id);
+    } finally {
+      setIsTranslating(false);
+    }
   }
 
   return (
@@ -99,6 +113,11 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
 
       {/* 内容 */}
       <div className="mt-2 text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{feedback.content}</div>
+      {feedback.contentEn && (
+        <div className="mt-1 text-xs text-gray-500 dark:text-gray-400 whitespace-pre-wrap border-l-2 border-gray-200 dark:border-gray-700 pl-3">
+          {feedback.contentEn}
+        </div>
+      )}
 
       {/* 备注 */}
       <div className="mt-3">
@@ -167,6 +186,17 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
               <MessageSquareIcon />
             </Button>
           )}
+
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleTranslate}
+            disabled={isTranslating}
+            className={feedback.contentEn ? 'text-gray-400 hover:text-gray-600' : ''}
+            title={feedback.contentEn ? '重新翻译' : '翻译为英文'}
+          >
+            {isTranslating ? <Loader2Icon className="animate-spin" /> : <LanguagesIcon />}
+          </Button>
 
           <Menu>
             <MenuTrigger render={<Button variant="ghost" size="icon-sm" title="管理标签" />}>

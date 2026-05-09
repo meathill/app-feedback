@@ -1,5 +1,5 @@
 -- Migration number: 0001 	 2025-03-01T00:00:00.000Z
-CREATE TABLE feedbacks (
+CREATE TABLE IF NOT EXISTS feedbacks (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   app_id TEXT NOT NULL,
   version TEXT,

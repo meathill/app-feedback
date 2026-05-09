@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
     const total = countResults[0]?.total || 0;
 
     // 获取数据
-    const dataSql = `SELECT id, app_id as appId, version, content, contact, device_info as deviceInfo, location, status, notes, tags, created_at as createdAt FROM feedbacks ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+    const dataSql = `SELECT id, app_id as appId, version, content, content_en as contentEn, contact, device_info as deviceInfo, location, status, notes, tags, created_at as createdAt FROM feedbacks ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`;
     const { results } = await env.DB.prepare(dataSql)
       .bind(...params, limit, offset)
       .all<Feedback & { tags: string }>();

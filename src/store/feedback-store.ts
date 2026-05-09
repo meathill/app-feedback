@@ -25,6 +25,7 @@ interface FeedbackState {
   deleteFeedback: (id: number) => Promise<void>;
   updateFeedbackNotes: (id: number, notes: string) => Promise<void>;
   updateFeedbackTags: (id: number, tags: string[]) => Promise<void>;
+  translateFeedback: (id: number) => Promise<void>;
 }
 
 export const useFeedbackStore = create<FeedbackState>((set, get) => ({
@@ -143,6 +144,22 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
       });
       if (!res.ok) throw new Error('Failed to update tags');
       await get().fetchFeedbacks();
+    } catch (error) {
+      set({ error: (error as Error).message });
+    }
+  },
+
+  async translateFeedback(id: number) {
+    try {
+      const res = await fetch(`/api/feedbacks/${id}/translate`, { method: 'POST' });
+      if (!res.ok) {
+        const json = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(json.error || 'Failed to translate feedback');
+      }
+      const json = (await res.json()) as { id: number; contentEn: string };
+      set({
+        feedbacks: get().feedbacks.map((f) => (f.id === id ? { ...f, contentEn: json.contentEn } : f)),
+      });
     } catch (error) {
       set({ error: (error as Error).message });
     }

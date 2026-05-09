@@ -5,6 +5,7 @@ export interface Feedback {
   appId: string;
   version?: string;
   content: string;
+  contentEn?: string | null;
   contact?: string;
   deviceInfo?: object;
   location?: object;
