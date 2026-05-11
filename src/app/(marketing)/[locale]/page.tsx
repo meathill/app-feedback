@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { GithubLogo, Rocket, ArrowRight, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
+import LanguageSwitcher from '../_components/language-switcher';
 
 import { routing } from '@/i18n/routing';
 
@@ -33,7 +34,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default function LandingPage() {
   const t = useTranslations('Landing');
-  const locales = ['en', 'zh', 'th', 'vi', 'es', 'pt'];
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex flex-col">
@@ -46,13 +46,7 @@ export default function LandingPage() {
           <Link href="/admin">
             <Button variant="outline">{t('hero.demo')}</Button>
           </Link>
-          <div className="flex gap-2 text-sm items-center text-neutral-500">
-            {locales.map((loc) => (
-              <Link key={loc} href={`/${loc}`} className="hover:text-black dark:hover:text-white uppercase px-1">
-                {loc}
-              </Link>
-            ))}
-          </div>
+          <LanguageSwitcher />
         </div>
       </header>
 
