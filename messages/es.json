@@ -1,0 +1,103 @@
+{
+  "Landing": {
+    "hero": {
+      "title": "Recopila comentarios como un profesional",
+      "subtitle": "Un sistema de gestión de comentarios de código abierto, rápido y sencillo. Creado para que los creadores escuchen a sus usuarios.",
+      "deploy": "Implementar en Cloudflare",
+      "github": "Destacar en GitHub",
+      "demo": "Ver Admin"
+    },
+    "features": {
+      "title": "¿Por qué elegir App Feedback?",
+      "items": [
+        {
+          "title": "Código Abierto",
+          "description": "Totalmente de código abierto y gratuito. Alójalo tú mismo y mantén el control total."
+        },
+        {
+          "title": "Rápido y Ligero",
+          "description": "Construido en el borde con Next.js y Cloudflare Workers. Rendimiento ultrarrápido."
+        },
+        {
+          "title": "Listo para el Mundo",
+          "description": "Soporte i18n integrado para múltiples idiomas listos para usar."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "items": [
+        {
+          "question": "¿Es completamente gratis?",
+          "answer": "Sí, es de código abierto. Puedes implementarlo en el nivel gratuito de Cloudflare."
+        },
+        {
+          "question": "¿Cómo lo implemento?",
+          "answer": "Simplemente haz clic en el botón 'Implementar en Cloudflare' o sigue las instrucciones en nuestro repositorio de GitHub."
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "Lo que dicen los creadores",
+      "items": [
+        {
+          "quote": "¡Esto es exactamente lo que necesitaba para mi proyecto! Muy fácil de configurar.",
+          "author": "Creador Open Source"
+        }
+      ]
+    },
+    "locale": {
+      "en": "English",
+      "zh": "中文",
+      "th": "ไทย",
+      "vi": "Tiếng Việt",
+      "es": "Español",
+      "pt": "Português"
+    },
+    "seo": {
+      "title": "App Feedback - Gestión de Comentarios Open Source",
+      "description": "Implementa tu propio sistema de recopilación de comentarios ultrarrápido en Cloudflare."
+    }
+  },
+  "Admin": {
+    "loading": "Cargando...",
+    "total": "Total {count}",
+    "toolbar": {
+      "app": "App",
+      "allApps": "Todas las apps",
+      "status": "Estado",
+      "allStatus": "Todos los estados",
+      "tag": "Etiqueta",
+      "allTags": "Todas las etiquetas",
+      "refresh": "Actualizar"
+    },
+    "list": {
+      "loadFailed": "Error al cargar",
+      "noDataTitle": "Sin comentarios",
+      "noDataDesc": "No hay datos con los filtros actuales"
+    },
+    "item": {
+      "notes": "Notas:",
+      "addNote": "Añadir nota...",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "editNoteTip": "Editar nota",
+      "addNoteTip": "Añadir nota",
+      "reTranslateTip": "Traducir de nuevo",
+      "translateTip": "Traducir al inglés",
+      "manageTagsTip": "Administrar etiquetas",
+      "markProcessedTip": "Marcar como procesado",
+      "archiveTip": "Archivar",
+      "restoreTip": "Restaurar",
+      "deleteTip": "Eliminar",
+      "confirmDelete": "Confirmar eliminación",
+      "deleteDesc": "¿Estás seguro de que quieres eliminar este comentario?",
+      "btnDelete": "Eliminar"
+    },
+    "pagination": {
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {page} / {totalPages}"
+    }
+  }
+}

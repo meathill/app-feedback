@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
-import './globals.css';
+import '../globals.css';
 import { cn } from '@/lib/utils';
+import { cookies } from 'next/headers';
+import { NextIntlClientProvider } from 'next-intl';
 
 const interHeading = Inter({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -22,17 +24,25 @@ export const metadata: Metadata = {
   description: '应用反馈收集与管理系统',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const locale = cookieStore.get('NEXT_LOCALE')?.value || 'zh';
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
+
   return (
-    <html lang="en" className={cn('font-sans', inter.variable, interHeading.variable)}>
+    <html lang={locale} className={cn('font-sans', inter.variable, interHeading.variable)}>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }

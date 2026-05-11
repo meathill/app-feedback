@@ -7,12 +7,16 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/u
 import { Spinner } from '@/components/ui/spinner';
 import { AlertCircleIcon } from 'lucide-react';
 import FeedbackItem from './feedback-item';
+import { useTranslations } from 'next-intl';
 
 export default function FeedbackList() {
   const feedbacks = useFeedbackStore((s) => s.feedbacks);
   const loading = useFeedbackStore((s) => s.loading);
   const error = useFeedbackStore((s) => s.error);
   const fetchFeedbacks = useFeedbackStore((s) => s.fetchFeedbacks);
+  
+  const t = useTranslations('Admin.list');
+  const tCommon = useTranslations('Admin');
 
   useEffect(() => {
     fetchFeedbacks();
@@ -22,7 +26,7 @@ export default function FeedbackList() {
     return (
       <Alert variant="error">
         <AlertCircleIcon />
-        <AlertTitle>加载失败</AlertTitle>
+        <AlertTitle>{t('loadFailed')}</AlertTitle>
         <AlertDescription>{error}</AlertDescription>
       </Alert>
     );
@@ -34,14 +38,14 @@ export default function FeedbackList() {
         {loading && feedbacks.length === 0 ? (
           <li className="px-6 py-12 flex items-center justify-center gap-2 text-gray-500 dark:text-gray-400">
             <Spinner />
-            加载中...
+            {tCommon('loading')}
           </li>
         ) : feedbacks.length === 0 ? (
           <li className="px-6 py-12">
             <Empty>
               <EmptyHeader>
-                <EmptyTitle>暂无反馈</EmptyTitle>
-                <EmptyDescription>当前筛选条件下没有数据</EmptyDescription>
+                <EmptyTitle>{t('noDataTitle')}</EmptyTitle>
+                <EmptyDescription>{t('noDataDesc')}</EmptyDescription>
               </EmptyHeader>
             </Empty>
           </li>

@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
+
+const intlMiddleware = createMiddleware(routing);
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -9,17 +13,33 @@ const CORS_HEADERS = {
 };
 
 export function middleware(request: NextRequest) {
-  if (request.method === 'OPTIONS') {
-    return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+  const isApi = request.nextUrl.pathname.startsWith('/api');
+
+  if (isApi) {
+    if (request.method === 'OPTIONS') {
+      return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+    }
+
+    const response = NextResponse.next();
+    for (const [key, value] of Object.entries(CORS_HEADERS)) {
+      response.headers.set(key, value);
+    }
+    return response;
   }
 
-  const response = NextResponse.next();
-  for (const [key, value] of Object.entries(CORS_HEADERS)) {
-    response.headers.set(key, value);
+  const isAdmin = request.nextUrl.pathname.startsWith('/admin');
+  if (isAdmin) {
+    return NextResponse.next();
   }
-  return response;
+
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: '/api/:path*',
+  matcher: [
+    // Match all pathnames except for
+    // - … if they start with `/api`, `/_next` or `/_vercel`
+    // - … the ones containing a dot (e.g. `favicon.ico`)
+    '/((?!_next|_vercel|.*\\..*).*)',
+  ],
 };

@@ -29,6 +29,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Menu, MenuCheckboxItem, MenuPopup, MenuTrigger } from '@/components/ui/menu';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslations } from 'next-intl';
 
 interface FeedbackItemProps {
   feedback: Feedback;
@@ -40,6 +41,8 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
   const updateFeedbackNotes = useFeedbackStore((s) => s.updateFeedbackNotes);
   const updateFeedbackTags = useFeedbackStore((s) => s.updateFeedbackTags);
   const translateFeedback = useFeedbackStore((s) => s.translateFeedback);
+
+  const t = useTranslations('Admin.item');
 
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesValue, setNotesValue] = useState(feedback.notes || '');
@@ -128,13 +131,13 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
               onChange={(e) => setNotesValue(e.target.value)}
               onKeyDown={handleNotesKeyDown}
               rows={3}
-              placeholder="添加备注..."
+              placeholder={t('addNote')}
               autoFocus
             />
             <div className="flex gap-2">
               <Button size="xs" onClick={handleSaveNotes}>
                 <SaveIcon />
-                保存
+                {t('save')}
               </Button>
               <Button
                 size="xs"
@@ -145,7 +148,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
                 }}
               >
                 <XIcon />
-                取消
+                {t('cancel')}
               </Button>
             </div>
           </div>
@@ -157,7 +160,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
             }}
             className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 rounded px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
           >
-            <span className="font-medium text-gray-500 dark:text-gray-400">备注：</span>
+            <span className="font-medium text-gray-500 dark:text-gray-400">{t('notes')}</span>
             {feedback.notes}
           </div>
         ) : null}
@@ -181,7 +184,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
                 setNotesValue(feedback.notes || '');
                 setEditingNotes(true);
               }}
-              title={feedback.notes ? '编辑备注' : '添加备注'}
+              title={feedback.notes ? t('editNoteTip') : t('addNoteTip')}
             >
               <MessageSquareIcon />
             </Button>
@@ -193,13 +196,13 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
             onClick={handleTranslate}
             disabled={isTranslating}
             className={feedback.contentEn ? 'text-gray-400 hover:text-gray-600' : ''}
-            title={feedback.contentEn ? '重新翻译' : '翻译为英文'}
+            title={feedback.contentEn ? t('reTranslateTip') : t('translateTip')}
           >
             {isTranslating ? <Loader2Icon className="animate-spin" /> : <LanguagesIcon />}
           </Button>
 
           <Menu>
-            <MenuTrigger render={<Button variant="ghost" size="icon-sm" title="管理标签" />}>
+            <MenuTrigger render={<Button variant="ghost" size="icon-sm" title={t('manageTagsTip')} />}>
               <TagIcon />
             </MenuTrigger>
             <MenuPopup align="end" className="min-w-[140px]">
@@ -221,7 +224,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
               size="icon-sm"
               onClick={() => updateFeedbackStatus(feedback.id, 'processed')}
               className="text-green-500 hover:text-green-700 hover:bg-green-50 dark:hover:bg-green-900/30"
-              title="标记已处理"
+              title={t('markProcessedTip')}
             >
               <CheckCircleIcon />
             </Button>
@@ -232,7 +235,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
               variant="ghost"
               size="icon-sm"
               onClick={() => updateFeedbackStatus(feedback.id, 'archived')}
-              title="归档"
+              title={t('archiveTip')}
             >
               <ArchiveIcon />
             </Button>
@@ -244,7 +247,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
               size="icon-sm"
               onClick={() => updateFeedbackStatus(feedback.id, 'pending')}
               className="text-blue-500 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/30"
-              title="恢复"
+              title={t('restoreTip')}
             >
               <UndoIcon />
             </Button>
@@ -257,7 +260,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
                   variant="ghost"
                   size="icon-sm"
                   className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                  title="删除"
+                  title={t('deleteTip')}
                 />
               }
             >
@@ -265,13 +268,13 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
             </AlertDialogTrigger>
             <AlertDialogPopup>
               <AlertDialogHeader>
-                <AlertDialogTitle>确认删除</AlertDialogTitle>
-                <AlertDialogDescription>确定要删除这条反馈吗？删除后可在后台恢复。</AlertDialogDescription>
+                <AlertDialogTitle>{t('confirmDelete')}</AlertDialogTitle>
+                <AlertDialogDescription>{t('deleteDesc')}</AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogClose render={<Button variant="ghost" />}>取消</AlertDialogClose>
+                <AlertDialogClose render={<Button variant="ghost" />}>{t('cancel')}</AlertDialogClose>
                 <AlertDialogClose render={<Button variant="destructive" onClick={handleConfirmDelete} />}>
-                  删除
+                  {t('btnDelete')}
                 </AlertDialogClose>
               </AlertDialogFooter>
             </AlertDialogPopup>

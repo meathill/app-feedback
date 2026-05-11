@@ -1,0 +1,103 @@
+{
+  "Landing": {
+    "hero": {
+      "title": "Gather Feedback Like a Pro",
+      "subtitle": "An open-source, fast, and simple feedback management system. Built for makers to listen to their users.",
+      "deploy": "Deploy to Cloudflare",
+      "github": "Star on GitHub",
+      "demo": "View Admin"
+    },
+    "features": {
+      "title": "Why Choose App Feedback?",
+      "items": [
+        {
+          "title": "Open Source",
+          "description": "Fully open source and free to use. Host it yourself and maintain full control."
+        },
+        {
+          "title": "Fast & Lightweight",
+          "description": "Built on the edge with Next.js and Cloudflare Workers. Lightning fast performance."
+        },
+        {
+          "title": "Global Ready",
+          "description": "Built-in i18n support for multiple languages out of the box."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "Is it completely free?",
+          "answer": "Yes, it is fully open-source. You can deploy it to Cloudflare's free tier."
+        },
+        {
+          "question": "How do I deploy it?",
+          "answer": "Simply click the 'Deploy to Cloudflare' button or follow the instructions in our GitHub repository."
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "What Makers Say",
+      "items": [
+        {
+          "quote": "This is exactly what I needed to collect feedback for my side project. Super easy to set up!",
+          "author": "Open Source Maker"
+        }
+      ]
+    },
+    "locale": {
+      "en": "English",
+      "zh": "中文",
+      "th": "ไทย",
+      "vi": "Tiếng Việt",
+      "es": "Español",
+      "pt": "Português"
+    },
+    "seo": {
+      "title": "App Feedback - Open Source Feedback Management",
+      "description": "Deploy your own lightning-fast feedback collection system on Cloudflare."
+    }
+  },
+  "Admin": {
+    "loading": "Loading...",
+    "total": "Total {count}",
+    "toolbar": {
+      "app": "App",
+      "allApps": "All Apps",
+      "status": "Status",
+      "allStatus": "All Statuses",
+      "tag": "Tag",
+      "allTags": "All Tags",
+      "refresh": "Refresh"
+    },
+    "list": {
+      "loadFailed": "Failed to load",
+      "noDataTitle": "No Feedback",
+      "noDataDesc": "No data under current filters"
+    },
+    "item": {
+      "notes": "Notes:",
+      "addNote": "Add note...",
+      "save": "Save",
+      "cancel": "Cancel",
+      "editNoteTip": "Edit note",
+      "addNoteTip": "Add note",
+      "reTranslateTip": "Translate again",
+      "translateTip": "Translate to English",
+      "manageTagsTip": "Manage tags",
+      "markProcessedTip": "Mark as processed",
+      "archiveTip": "Archive",
+      "restoreTip": "Restore",
+      "deleteTip": "Delete",
+      "confirmDelete": "Confirm Delete",
+      "deleteDesc": "Are you sure you want to delete this feedback?",
+      "btnDelete": "Delete"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page {page} / {totalPages}"
+    }
+  }
+}

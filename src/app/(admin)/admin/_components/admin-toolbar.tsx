@@ -6,13 +6,9 @@ import type { FeedbackStatus } from '@/types';
 import { RefreshCwIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useTranslations } from 'next-intl';
 
 const ALL = '__all__';
-
-const STATUS_LABEL: Record<string, string> = Object.fromEntries(
-  Object.entries(STATUS_CONFIG).map(([k, v]) => [k, v.label]),
-);
-const TAG_LABEL: Record<string, string> = Object.fromEntries(FEEDBACK_TAGS.map((t) => [t.value, t.label]));
 
 export default function AdminToolbar() {
   const apps = useFeedbackStore((s) => s.apps);
@@ -23,6 +19,13 @@ export default function AdminToolbar() {
   const setFilterStatus = useFeedbackStore((s) => s.setFilterStatus);
   const setFilterTag = useFeedbackStore((s) => s.setFilterTag);
   const fetchFeedbacks = useFeedbackStore((s) => s.fetchFeedbacks);
+  
+  const t = useTranslations('Admin.toolbar');
+
+  const STATUS_LABEL: Record<string, string> = Object.fromEntries(
+    Object.entries(STATUS_CONFIG).map(([k, v]) => [k, v.label]),
+  );
+  const TAG_LABEL: Record<string, string> = Object.fromEntries(FEEDBACK_TAGS.map((t) => [t.value, t.label]));
 
   function handleRefresh() {
     useFeedbackStore.setState({ apps: [] });
@@ -32,13 +35,13 @@ export default function AdminToolbar() {
   return (
     <div className="mb-6 flex flex-wrap gap-4 items-end">
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-muted-foreground">应用</label>
+        <label className="text-xs text-muted-foreground">{t('app')}</label>
         <Select value={filterApp ?? ALL} onValueChange={(v: string | null) => setFilterApp(v === ALL ? null : v)}>
           <SelectTrigger className="min-w-40">
-            <SelectValue>{(value) => (value === ALL ? '全部应用' : (value as string))}</SelectValue>
+            <SelectValue>{(value) => (value === ALL ? t('allApps') : (value as string))}</SelectValue>
           </SelectTrigger>
           <SelectPopup>
-            <SelectItem value={ALL}>全部应用</SelectItem>
+            <SelectItem value={ALL}>{t('allApps')}</SelectItem>
             {apps.map((app) => (
               <SelectItem key={app} value={app}>
                 {app}
@@ -49,16 +52,16 @@ export default function AdminToolbar() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-muted-foreground">状态</label>
+        <label className="text-xs text-muted-foreground">{t('status')}</label>
         <Select
           value={filterStatus ?? ALL}
           onValueChange={(v: string | null) => setFilterStatus(v === ALL ? null : (v as FeedbackStatus))}
         >
           <SelectTrigger className="min-w-32">
-            <SelectValue>{(value) => (value === ALL ? '全部状态' : STATUS_LABEL[value as string])}</SelectValue>
+            <SelectValue>{(value) => (value === ALL ? t('allStatus') : STATUS_LABEL[value as string])}</SelectValue>
           </SelectTrigger>
           <SelectPopup>
-            <SelectItem value={ALL}>全部状态</SelectItem>
+            <SelectItem value={ALL}>{t('allStatus')}</SelectItem>
             {Object.entries(STATUS_CONFIG)
               .filter(([key]) => key !== 'deleted')
               .map(([key, cfg]) => (
@@ -71,13 +74,13 @@ export default function AdminToolbar() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-muted-foreground">标签</label>
+        <label className="text-xs text-muted-foreground">{t('tag')}</label>
         <Select value={filterTag ?? ALL} onValueChange={(v: string | null) => setFilterTag(v === ALL ? null : v)}>
           <SelectTrigger className="min-w-32">
-            <SelectValue>{(value) => (value === ALL ? '全部标签' : TAG_LABEL[value as string])}</SelectValue>
+            <SelectValue>{(value) => (value === ALL ? t('allTags') : TAG_LABEL[value as string])}</SelectValue>
           </SelectTrigger>
           <SelectPopup>
-            <SelectItem value={ALL}>全部标签</SelectItem>
+            <SelectItem value={ALL}>{t('allTags')}</SelectItem>
             {FEEDBACK_TAGS.map((tag) => (
               <SelectItem key={tag.value} value={tag.value}>
                 {tag.label}
@@ -87,9 +90,9 @@ export default function AdminToolbar() {
         </Select>
       </div>
 
-      <Button variant="outline" size="sm" onClick={handleRefresh} title="刷新">
+      <Button variant="outline" size="sm" onClick={handleRefresh} title={t('refresh')}>
         <RefreshCwIcon />
-        刷新
+        {t('refresh')}
       </Button>
     </div>
   );

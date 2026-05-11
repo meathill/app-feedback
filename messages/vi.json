@@ -1,0 +1,103 @@
+{
+  "Landing": {
+    "hero": {
+      "title": "Thu thập phản hồi như một chuyên gia",
+      "subtitle": "Một hệ thống quản lý phản hồi mã nguồn mở, nhanh chóng và đơn giản. Được xây dựng để các nhà sáng tạo lắng nghe người dùng của họ.",
+      "deploy": "Triển khai lên Cloudflare",
+      "github": "Đánh sao trên GitHub",
+      "demo": "Xem Admin"
+    },
+    "features": {
+      "title": "Tại sao chọn App Feedback?",
+      "items": [
+        {
+          "title": "Mã nguồn mở",
+          "description": "Hoàn toàn mã nguồn mở và miễn phí sử dụng. Tự lưu trữ và duy trì quyền kiểm soát hoàn toàn."
+        },
+        {
+          "title": "Nhanh & Nhẹ",
+          "description": "Được xây dựng trên edge với Next.js và Cloudflare Workers. Hiệu suất nhanh như chớp."
+        },
+        {
+          "title": "Sẵn sàng toàn cầu",
+          "description": "Hỗ trợ i18n tích hợp cho nhiều ngôn ngữ ngay lập tức."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Câu hỏi thường gặp",
+      "items": [
+        {
+          "question": "Nó có hoàn toàn miễn phí không?",
+          "answer": "Có, nó hoàn toàn mã nguồn mở. Bạn có thể triển khai nó trên gói miễn phí của Cloudflare."
+        },
+        {
+          "question": "Làm cách nào để triển khai?",
+          "answer": "Chỉ cần nhấp vào nút 'Triển khai lên Cloudflare' hoặc làm theo hướng dẫn trong kho lưu trữ GitHub của chúng tôi."
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "Những gì các nhà sáng tạo nói",
+      "items": [
+        {
+          "quote": "Đây chính xác là những gì tôi cần để thu thập phản hồi cho dự án phụ của mình. Cực kỳ dễ thiết lập!",
+          "author": "Nhà sáng tạo mã nguồn mở"
+        }
+      ]
+    },
+    "locale": {
+      "en": "English",
+      "zh": "中文",
+      "th": "ไทย",
+      "vi": "Tiếng Việt",
+      "es": "Español",
+      "pt": "Português"
+    },
+    "seo": {
+      "title": "App Feedback - Quản lý phản hồi mã nguồn mở",
+      "description": "Triển khai hệ thống thu thập phản hồi nhanh như chớp của riêng bạn trên Cloudflare."
+    }
+  },
+  "Admin": {
+    "loading": "Đang tải...",
+    "total": "Tổng cộng {count}",
+    "toolbar": {
+      "app": "Ứng dụng",
+      "allApps": "Tất cả ứng dụng",
+      "status": "Trạng thái",
+      "allStatus": "Tất cả trạng thái",
+      "tag": "Thẻ",
+      "allTags": "Tất cả thẻ",
+      "refresh": "Làm mới"
+    },
+    "list": {
+      "loadFailed": "Tải thất bại",
+      "noDataTitle": "Không có phản hồi",
+      "noDataDesc": "Không có dữ liệu với bộ lọc hiện tại"
+    },
+    "item": {
+      "notes": "Ghi chú:",
+      "addNote": "Thêm ghi chú...",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "editNoteTip": "Chỉnh sửa ghi chú",
+      "addNoteTip": "Thêm ghi chú",
+      "reTranslateTip": "Dịch lại",
+      "translateTip": "Dịch sang tiếng Anh",
+      "manageTagsTip": "Quản lý thẻ",
+      "markProcessedTip": "Đánh dấu đã xử lý",
+      "archiveTip": "Lưu trữ",
+      "restoreTip": "Khôi phục",
+      "deleteTip": "Xóa",
+      "confirmDelete": "Xác nhận xóa",
+      "deleteDesc": "Bạn có chắc chắn muốn xóa phản hồi này không?",
+      "btnDelete": "Xóa"
+    },
+    "pagination": {
+      "prev": "Trang trước",
+      "next": "Trang sau",
+      "page": "Trang {page} / {totalPages}"
+    }
+  }
+}

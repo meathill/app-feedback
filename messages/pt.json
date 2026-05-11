@@ -1,0 +1,103 @@
+{
+  "Landing": {
+    "hero": {
+      "title": "Colete feedback como um profissional",
+      "subtitle": "Um sistema de gerenciamento de feedback de código aberto, rápido e simples. Feito para criadores ouvirem seus usuários.",
+      "deploy": "Implantar no Cloudflare",
+      "github": "Dar estrela no GitHub",
+      "demo": "Ver Admin"
+    },
+    "features": {
+      "title": "Por que escolher App Feedback?",
+      "items": [
+        {
+          "title": "Código Aberto",
+          "description": "Totalmente de código aberto e gratuito. Hospede você mesmo e tenha controle total."
+        },
+        {
+          "title": "Rápido e Leve",
+          "description": "Construído na borda com Next.js e Cloudflare Workers. Desempenho ultrarrápido."
+        },
+        {
+          "title": "Pronto para o Mundo",
+          "description": "Suporte i18n integrado para vários idiomas."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Perguntas Frequentes",
+      "items": [
+        {
+          "question": "É totalmente gratuito?",
+          "answer": "Sim, é de código aberto. Você pode implantá-lo no nível gratuito do Cloudflare."
+        },
+        {
+          "question": "Como eu o implanto?",
+          "answer": "Basta clicar no botão 'Implantar no Cloudflare' ou seguir as instruções em nosso repositório no GitHub."
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "O que os criadores dizem",
+      "items": [
+        {
+          "quote": "Isso é exatamente o que eu precisava para coletar feedback para o meu projeto. Super fácil de configurar!",
+          "author": "Criador de Código Aberto"
+        }
+      ]
+    },
+    "locale": {
+      "en": "English",
+      "zh": "中文",
+      "th": "ไทย",
+      "vi": "Tiếng Việt",
+      "es": "Español",
+      "pt": "Português"
+    },
+    "seo": {
+      "title": "App Feedback - Gerenciamento de Feedback de Código Aberto",
+      "description": "Implante seu próprio sistema de coleta de feedback ultrarrápido no Cloudflare."
+    }
+  },
+  "Admin": {
+    "loading": "Carregando...",
+    "total": "Total {count}",
+    "toolbar": {
+      "app": "App",
+      "allApps": "Todos os apps",
+      "status": "Status",
+      "allStatus": "Todos os status",
+      "tag": "Tag",
+      "allTags": "Todas as tags",
+      "refresh": "Atualizar"
+    },
+    "list": {
+      "loadFailed": "Falha ao carregar",
+      "noDataTitle": "Sem feedback",
+      "noDataDesc": "Sem dados com os filtros atuais"
+    },
+    "item": {
+      "notes": "Notas:",
+      "addNote": "Adicionar nota...",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "editNoteTip": "Editar nota",
+      "addNoteTip": "Adicionar nota",
+      "reTranslateTip": "Traduzir novamente",
+      "translateTip": "Traduzir para o inglês",
+      "manageTagsTip": "Gerenciar tags",
+      "markProcessedTip": "Marcar como processado",
+      "archiveTip": "Arquivar",
+      "restoreTip": "Restaurar",
+      "deleteTip": "Excluir",
+      "confirmDelete": "Confirmar exclusão",
+      "deleteDesc": "Tem certeza de que deseja excluir este feedback?",
+      "btnDelete": "Excluir"
+    },
+    "pagination": {
+      "prev": "Anterior",
+      "next": "Próximo",
+      "page": "Página {page} / {totalPages}"
+    }
+  }
+}
