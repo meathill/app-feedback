@@ -21,6 +21,10 @@
         {
           "title": "Listo para el Mundo",
           "description": "Soporte i18n integrado para múltiples idiomas listos para usar."
+        },
+        {
+          "title": "Integración profunda de IA",
+          "description": "Traducción automática basada en LLM incorporada (en vivo), con clasificación de IA y análisis de sentimientos planificados. Aproveche los niveles gratuitos para una mejor eficiencia y menores costos."
         }
       ]
     },

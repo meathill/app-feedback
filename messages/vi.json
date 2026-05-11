@@ -21,6 +21,10 @@
         {
           "title": "Sẵn sàng toàn cầu",
           "description": "Hỗ trợ i18n tích hợp cho nhiều ngôn ngữ ngay lập tức."
+        },
+        {
+          "title": "Tích hợp AI sâu",
+          "description": "Tích hợp dịch tự động do LLM hỗ trợ (đã hoạt động), với kế hoạch phân loại và phân tích cảm xúc AI. Tận dụng các bậc miễn phí để có hiệu quả tốt hơn và chi phí thấp hơn."
         }
       ]
     },

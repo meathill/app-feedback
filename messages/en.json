@@ -21,6 +21,10 @@
         {
           "title": "Global Ready",
           "description": "Built-in i18n support for multiple languages out of the box."
+        },
+        {
+          "title": "Deep AI Integration",
+          "description": "Built-in LLM-powered automatic translation (live), with planned AI classification and sentiment analysis. Leverage free tiers for better efficiency and lower costs."
         }
       ]
     },

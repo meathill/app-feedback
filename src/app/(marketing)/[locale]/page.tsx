@@ -92,8 +92,8 @@ export default function LandingPage() {
         {/* Features */}
         <section className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 fill-mode-both">
           <h2 className="text-3xl font-bold text-center">{t('features.title')}</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[0, 1, 2].map((i) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
                 className="p-8 bg-white dark:bg-neutral-950 rounded-3xl shadow-sm border border-neutral-200 dark:border-neutral-800 space-y-4 hover:shadow-md transition-shadow"
