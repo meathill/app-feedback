@@ -1,6 +1,18 @@
-import { describe, it, expect } from 'vitest';
-import { middleware } from './middleware';
+import { describe, it, expect, vi } from 'vitest';
 import { NextRequest } from 'next/server';
+import { middleware } from './middleware';
+
+vi.mock('next-intl/middleware', () => ({
+  default: vi.fn(() => vi.fn(() => new Response(null))),
+}));
+
+vi.mock('./i18n/routing', () => ({
+  routing: {
+    defaultLocale: 'zh',
+    localePrefix: 'as-needed',
+    locales: ['zh', 'en'],
+  },
+}));
 
 function createRequest(method: string, path: string) {
   return new NextRequest(new Request(`http://localhost${path}`, { method }));

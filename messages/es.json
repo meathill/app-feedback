@@ -80,7 +80,21 @@
       "noDataTitle": "Sin comentarios",
       "noDataDesc": "No hay datos con los filtros actuales"
     },
+    "bulk": {
+      "selectCurrentPage": "Seleccionar página actual",
+      "selectedCount": "{count} seleccionados",
+      "markProcessed": "Marcar procesados",
+      "archive": "Archivar",
+      "restore": "Restaurar a pendiente",
+      "delete": "Eliminar",
+      "confirmDelete": "Confirmar eliminación masiva",
+      "deleteDesc": "¿Eliminar los {count} comentarios seleccionados? Ya no aparecerán en la lista actual.",
+      "cancel": "Cancelar",
+      "btnDelete": "Eliminar",
+      "clearSelection": "Borrar selección"
+    },
     "item": {
+      "selectFeedback": "Seleccionar comentario {id}",
       "notes": "Notas:",
       "addNote": "Añadir nota...",
       "save": "Guardar",

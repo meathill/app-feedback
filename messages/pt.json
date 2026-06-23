@@ -80,7 +80,21 @@
       "noDataTitle": "Sem feedback",
       "noDataDesc": "Sem dados com os filtros atuais"
     },
+    "bulk": {
+      "selectCurrentPage": "Selecionar página atual",
+      "selectedCount": "{count} selecionados",
+      "markProcessed": "Marcar como processado",
+      "archive": "Arquivar",
+      "restore": "Restaurar para pendente",
+      "delete": "Excluir",
+      "confirmDelete": "Confirmar exclusão em massa",
+      "deleteDesc": "Excluir os {count} feedbacks selecionados? Eles não aparecerão mais na lista atual.",
+      "cancel": "Cancelar",
+      "btnDelete": "Excluir",
+      "clearSelection": "Limpar seleção"
+    },
     "item": {
+      "selectFeedback": "Selecionar feedback {id}",
       "notes": "Notas:",
       "addNote": "Adicionar nota...",
       "save": "Salvar",

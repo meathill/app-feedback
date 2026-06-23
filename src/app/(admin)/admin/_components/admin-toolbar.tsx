@@ -19,7 +19,7 @@ export default function AdminToolbar() {
   const setFilterStatus = useFeedbackStore((s) => s.setFilterStatus);
   const setFilterTag = useFeedbackStore((s) => s.setFilterTag);
   const fetchFeedbacks = useFeedbackStore((s) => s.fetchFeedbacks);
-  
+
   const t = useTranslations('Admin.toolbar');
 
   const STATUS_LABEL: Record<string, string> = Object.fromEntries(

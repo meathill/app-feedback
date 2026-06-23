@@ -80,7 +80,21 @@
       "noDataTitle": "暂无反馈",
       "noDataDesc": "当前筛选条件下没有数据"
     },
+    "bulk": {
+      "selectCurrentPage": "选中当前页",
+      "selectedCount": "已选 {count} 条",
+      "markProcessed": "标记已处理",
+      "archive": "归档",
+      "restore": "恢复为待处理",
+      "delete": "删除",
+      "confirmDelete": "确认批量删除",
+      "deleteDesc": "确定要删除已选的 {count} 条反馈吗？删除后不会在当前列表显示。",
+      "cancel": "取消",
+      "btnDelete": "删除",
+      "clearSelection": "取消选择"
+    },
     "item": {
+      "selectFeedback": "选择反馈 {id}",
       "notes": "备注：",
       "addNote": "添加备注...",
       "save": "保存",

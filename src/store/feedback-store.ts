@@ -8,6 +8,7 @@ interface FeedbackState {
   page: number;
   totalPages: number;
   apps: string[];
+  selectedFeedbackIds: number[];
 
   filterApp: string | null;
   filterStatus: FeedbackStatus | null;
@@ -21,7 +22,11 @@ interface FeedbackState {
   setFilterApp: (app: string | null) => void;
   setFilterStatus: (status: FeedbackStatus | null) => void;
   setFilterTag: (tag: string | null) => void;
+  toggleFeedbackSelected: (id: number, selected?: boolean) => void;
+  setCurrentPageSelected: (ids: number[], selected: boolean) => void;
+  clearSelectedFeedbacks: () => void;
   updateFeedbackStatus: (id: number, status: FeedbackStatus) => Promise<void>;
+  batchUpdateFeedbackStatus: (status: FeedbackStatus) => Promise<void>;
   deleteFeedback: (id: number) => Promise<void>;
   updateFeedbackNotes: (id: number, notes: string) => Promise<void>;
   updateFeedbackTags: (id: number, tags: string[]) => Promise<void>;
@@ -34,6 +39,7 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
   page: 1,
   totalPages: 0,
   apps: [],
+  selectedFeedbackIds: [],
 
   filterApp: null,
   filterStatus: 'pending',
@@ -44,7 +50,7 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
 
   async fetchFeedbacks() {
     const { page, filterApp, filterStatus, filterTag } = get();
-    set({ loading: true, error: null });
+    set({ loading: true, error: null, selectedFeedbackIds: [] });
 
     try {
       const params = new URLSearchParams();
@@ -78,23 +84,50 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
   },
 
   setPage(page: number) {
-    set({ page });
+    set({ page, selectedFeedbackIds: [] });
     get().fetchFeedbacks();
   },
 
   setFilterApp(app: string | null) {
-    set({ filterApp: app, page: 1 });
+    set({ filterApp: app, page: 1, selectedFeedbackIds: [] });
     get().fetchFeedbacks();
   },
 
   setFilterStatus(status: FeedbackStatus | null) {
-    set({ filterStatus: status, page: 1 });
+    set({ filterStatus: status, page: 1, selectedFeedbackIds: [] });
     get().fetchFeedbacks();
   },
 
   setFilterTag(tag: string | null) {
-    set({ filterTag: tag, page: 1 });
+    set({ filterTag: tag, page: 1, selectedFeedbackIds: [] });
     get().fetchFeedbacks();
+  },
+
+  toggleFeedbackSelected(id: number, selected?: boolean) {
+    const selectedFeedbackIds = get().selectedFeedbackIds;
+    const isSelected = selectedFeedbackIds.includes(id);
+    const shouldSelect = selected ?? !isSelected;
+
+    if (shouldSelect === isSelected) return;
+
+    set({
+      selectedFeedbackIds: shouldSelect
+        ? [...selectedFeedbackIds, id]
+        : selectedFeedbackIds.filter((selectedId) => selectedId !== id),
+    });
+  },
+
+  setCurrentPageSelected(ids: number[], selected: boolean) {
+    const currentIds = new Set(ids);
+    const selectedFeedbackIds = get().selectedFeedbackIds.filter((id) => !currentIds.has(id));
+
+    set({
+      selectedFeedbackIds: selected ? [...selectedFeedbackIds, ...ids] : selectedFeedbackIds,
+    });
+  },
+
+  clearSelectedFeedbacks() {
+    set({ selectedFeedbackIds: [] });
   },
 
   async updateFeedbackStatus(id: number, status: FeedbackStatus) {
@@ -108,6 +141,27 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
       await get().fetchFeedbacks();
     } catch (error) {
       set({ error: (error as Error).message });
+    }
+  },
+
+  async batchUpdateFeedbackStatus(status: FeedbackStatus) {
+    const ids = get().selectedFeedbackIds;
+    if (ids.length === 0) return;
+
+    try {
+      set({ loading: true, error: null });
+      const res = await fetch('/api/feedbacks/batch', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids, status }),
+      });
+      if (!res.ok) {
+        const json = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(json.error || 'Failed to batch update feedbacks');
+      }
+      await get().fetchFeedbacks();
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
     }
   },
 

@@ -80,7 +80,21 @@
       "noDataTitle": "No Feedback",
       "noDataDesc": "No data under current filters"
     },
+    "bulk": {
+      "selectCurrentPage": "Select current page",
+      "selectedCount": "{count} selected",
+      "markProcessed": "Mark processed",
+      "archive": "Archive",
+      "restore": "Restore to pending",
+      "delete": "Delete",
+      "confirmDelete": "Confirm bulk delete",
+      "deleteDesc": "Delete the selected {count} feedback items? They will no longer appear in the current list.",
+      "cancel": "Cancel",
+      "btnDelete": "Delete",
+      "clearSelection": "Clear selection"
+    },
     "item": {
+      "selectFeedback": "Select feedback {id}",
       "notes": "Notes:",
       "addNote": "Add note...",
       "save": "Save",

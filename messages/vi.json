@@ -80,7 +80,21 @@
       "noDataTitle": "Không có phản hồi",
       "noDataDesc": "Không có dữ liệu với bộ lọc hiện tại"
     },
+    "bulk": {
+      "selectCurrentPage": "Chọn trang hiện tại",
+      "selectedCount": "Đã chọn {count}",
+      "markProcessed": "Đánh dấu đã xử lý",
+      "archive": "Lưu trữ",
+      "restore": "Khôi phục về đang chờ",
+      "delete": "Xóa",
+      "confirmDelete": "Xác nhận xóa hàng loạt",
+      "deleteDesc": "Xóa {count} phản hồi đã chọn? Chúng sẽ không còn xuất hiện trong danh sách hiện tại.",
+      "cancel": "Hủy",
+      "btnDelete": "Xóa",
+      "clearSelection": "Bỏ chọn"
+    },
     "item": {
+      "selectFeedback": "Chọn phản hồi {id}",
       "notes": "Ghi chú:",
       "addNote": "Thêm ghi chú...",
       "save": "Lưu",

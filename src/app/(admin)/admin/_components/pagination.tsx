@@ -24,9 +24,7 @@ export default function Pagination() {
           </Button>
         )}
       </div>
-      <div className="text-sm text-gray-700 dark:text-gray-300">
-        {t('page', { page, totalPages })}
-      </div>
+      <div className="text-sm text-gray-700 dark:text-gray-300">{t('page', { page, totalPages })}</div>
       <div>
         {page < totalPages && (
           <Button variant="outline" onClick={() => setPage(page + 1)}>
