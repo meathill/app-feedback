@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
+import { getSiteUrl } from '@/lib/site-url';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // TODO: Replace with your actual production domain
-  const host = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+  const host = getSiteUrl();
 
   const languages: Record<string, string> = {};
   routing.locales.forEach((locale) => {

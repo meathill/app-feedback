@@ -22,6 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'App Feedback 管理后台',
   description: '应用反馈收集与管理系统',
+  robots: { index: false, follow: false },
 };
 
 export default async function RootLayout({

@@ -1,6 +1,6 @@
 # 应用反馈收集器 (App Feedback Collector)
 
-> Live: https://feedback.roudan.io
+> Live: https://feedback.meathill.com
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/meathill/app-feedback)
 
@@ -49,7 +49,13 @@ npx wrangler d1 migrations apply feedbacks --local
 
 **3. 配置环境变量**
 
-在 Cloudflare Dashboard 设置以下环境变量 (或本地创建 `.dev.vars`):
+构建和部署前必须注入 `NEXT_PUBLIC_SITE_URL`（构建期内联，缺失时 robots/sitemap 无法生成）：
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://feedback.meathill.com pnpm build
+```
+
+以下环境变量在 Cloudflare Dashboard 设置 (或本地创建 `.dev.vars`):
 
 - `TELEGRAM_BOT_TOKEN`: Telegram Bot Token (可选)
 - `TELEGRAM_CHAT_ID`: 接收通知的 Chat ID (可选)
@@ -65,7 +71,7 @@ pnpm dev
 **5. 手动部署**
 
 ```bash
-pnpm deploy
+NEXT_PUBLIC_SITE_URL=https://feedback.meathill.com pnpm deploy
 ```
 
 ## 📚 API 文档
