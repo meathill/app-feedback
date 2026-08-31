@@ -1,21 +1,17 @@
+import { ArrowRight, CheckCircle, GithubLogo, Rocket } from '@phosphor-icons/react/dist/ssr';
 import { brandCatalog, getOrganizationJsonLd } from 'meathill-brand';
 import { BrandFooter, BrandHeader } from 'meathill-brand-react';
-import { ArrowRight, CheckCircle, GithubLogo, Rocket } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { routing } from '@/i18n/routing';
+import { FEEDBACK_SITE_URL, getFeedbackAlternates } from '@/lib/site-metadata';
 import LanguageSwitcher from '../_components/language-switcher';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Landing.seo' });
-
-  const languages: Record<string, string> = {};
-  routing.locales.forEach((l) => {
-    languages[l] = l === routing.defaultLocale ? '/' : `/${l}`;
-  });
 
   return {
     title: t('title'),
@@ -26,16 +22,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       locale: locale,
       type: 'website',
     },
-    alternates: {
-      canonical: locale === routing.defaultLocale ? '/' : `/${locale}`,
-      languages,
-    },
+    alternates: getFeedbackAlternates(locale, routing.locales, routing.defaultLocale),
   };
 }
 
 export default function LandingPage() {
   const t = useTranslations('Landing');
-  const siteUrl = 'https://feedback.meathill.com';
+  const siteUrl = FEEDBACK_SITE_URL;
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
