@@ -1,11 +1,12 @@
+import { brandCatalog, getOrganizationJsonLd } from 'meathill-brand';
+import { BrandFooter, BrandHeader } from 'meathill-brand-react';
+import { ArrowRight, CheckCircle, GithubLogo, Rocket } from '@phosphor-icons/react/dist/ssr';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
-import { GithubLogo, Rocket, ArrowRight, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
-import LanguageSwitcher from '../_components/language-switcher';
-
 import { routing } from '@/i18n/routing';
+import LanguageSwitcher from '../_components/language-switcher';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -34,21 +35,40 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default function LandingPage() {
   const t = useTranslations('Landing');
+  const siteUrl = 'https://feedback.meathill.com';
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      getOrganizationJsonLd(),
+      {
+        '@type': 'WebSite',
+        name: 'App Feedback',
+        url: siteUrl,
+        publisher: { '@id': brandCatalog.organization.id },
+      },
+    ],
+  };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex flex-col">
-      <header className="px-6 py-4 flex flex-wrap justify-between items-center border-b bg-white dark:bg-neutral-950 gap-4 sticky top-0 z-10">
-        <div className="font-bold text-lg flex items-center gap-2">
-          <Rocket className="w-5 h-5 text-blue-600" />
-          App Feedback
-        </div>
-        <div className="flex gap-4 items-center flex-wrap">
-          <Link href="/admin">
-            <Button variant="outline">{t('hero.demo')}</Button>
-          </Link>
-          <LanguageSwitcher />
-        </div>
-      </header>
+    <div className="min-h-screen bg-[var(--meathill-cream)] dark:bg-neutral-900 flex flex-col">
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD 结构化数据
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <BrandHeader
+        currentSiteId="app-feedback"
+        productName="App Feedback"
+        productUrl={siteUrl}
+        actions={
+          <div className="flex gap-4 items-center flex-wrap">
+            <Link href="/admin">
+              <Button variant="outline">{t('hero.demo')}</Button>
+            </Link>
+            <LanguageSwitcher />
+          </div>
+        }
+      />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-6 py-24 space-y-32">
         {/* Hero */}
@@ -141,9 +161,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="text-center py-12 text-sm text-neutral-500 border-t">
-        <p>&copy; {new Date().getFullYear()} App Feedback. Open Source with ❤️</p>
-      </footer>
+      <BrandFooter currentSiteId="app-feedback" description={t('hero.subtitle')} />
     </div>
   );
 }
