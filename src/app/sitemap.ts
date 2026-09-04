@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   routing.locales.forEach((locale) => {
     languages[locale] = locale === routing.defaultLocale ? host : `${host}/${locale}`;
   });
+  languages['x-default'] = host;
 
   return [
     {

@@ -6,21 +6,47 @@ import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { routing } from '@/i18n/routing';
-import { FEEDBACK_SITE_URL, getFeedbackAlternates } from '@/lib/site-metadata';
+import {
+  FEEDBACK_OG_IMAGE,
+  FEEDBACK_OG_IMAGE_HEIGHT,
+  FEEDBACK_OG_IMAGE_WIDTH,
+  FEEDBACK_SITE_URL,
+  getFeedbackAlternates,
+} from '@/lib/site-metadata';
 import LanguageSwitcher from '../_components/language-switcher';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Landing.seo' });
+  const title = t('title');
+  const description = t('description');
+  const canonical = locale === routing.defaultLocale ? FEEDBACK_SITE_URL : `${FEEDBACK_SITE_URL}/${locale}`;
 
   return {
-    title: t('title'),
-    description: t('description'),
+    metadataBase: new URL(FEEDBACK_SITE_URL),
+    title,
+    description,
     openGraph: {
-      title: t('title'),
-      description: t('description'),
-      locale: locale,
+      title,
+      description,
+      url: canonical,
+      siteName: 'App Feedback',
+      locale,
       type: 'website',
+      images: [
+        {
+          url: FEEDBACK_OG_IMAGE,
+          width: FEEDBACK_OG_IMAGE_WIDTH,
+          height: FEEDBACK_OG_IMAGE_HEIGHT,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [FEEDBACK_OG_IMAGE],
     },
     alternates: getFeedbackAlternates(locale, routing.locales, routing.defaultLocale),
   };
