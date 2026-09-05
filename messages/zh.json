@@ -117,5 +117,25 @@
       "next": "下一页",
       "page": "第 {page} / {totalPages} 页"
     }
+  },
+  "Uninstall": {
+    "title": "非常遗憾看到您离去",
+    "subtitle": "您的反馈能帮助我们不断改进产品。能否告诉我们您卸载的原因？",
+    "reasonsTitle": "请选择您卸载的主要原因（可多选）：",
+    "reasons": {
+      "notWorking": "功能无法正常工作 / 存在 Bug",
+      "hardToUse": "界面不好用 / 操作太复杂",
+      "missingFeatures": "缺少我需要的功能",
+      "foundAlternative": "找到了更好的替代方案",
+      "notNeeded": "暂时不需要此扩展了",
+      "other": "其他原因"
+    },
+    "detailsPlaceholder": "请详细说说您的意见或遇到什么问题（选填）...",
+    "contactLabel": "联系方式（选填）",
+    "contactPlaceholder": "邮箱或 Telegram（方便我们在改进后通知您）",
+    "submit": "提交反馈",
+    "submitting": "提交中...",
+    "thankYouTitle": "感谢您的反馈！",
+    "thankYouSubtitle": "我们会认真对待每一条建议，争取做得更好。"
   }
 }

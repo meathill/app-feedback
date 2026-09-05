@@ -117,5 +117,25 @@
       "next": "Next",
       "page": "Page {page} / {totalPages}"
     }
+  },
+  "Uninstall": {
+    "title": "We're sorry to see you go",
+    "subtitle": "Your feedback helps us continuously improve. Would you mind letting us know why you uninstalled?",
+    "reasonsTitle": "Select the main reason(s) for uninstalling:",
+    "reasons": {
+      "notWorking": "Not working / encountered bugs",
+      "hardToUse": "Hard to use / too complex",
+      "missingFeatures": "Missing features I need",
+      "foundAlternative": "Found a better alternative",
+      "notNeeded": "No longer need this extension",
+      "other": "Other reason"
+    },
+    "detailsPlaceholder": "Tell us more details or suggestions (optional)...",
+    "contactLabel": "Contact information (optional)",
+    "contactPlaceholder": "Email or Telegram handle",
+    "submit": "Submit Feedback",
+    "submitting": "Submitting...",
+    "thankYouTitle": "Thank you for your feedback!",
+    "thankYouSubtitle": "We appreciate your time and will use your input to build better tools."
   }
 }
