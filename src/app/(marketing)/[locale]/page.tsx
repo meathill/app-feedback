@@ -81,7 +81,7 @@ export default function LandingPage() {
         productUrl={siteUrl}
         actions={
           <div className="flex gap-4 items-center flex-wrap">
-            <Link href="/admin">
+            <Link href="/admin" prefetch={false}>
               <Button variant="outline">{t('hero.demo')}</Button>
             </Link>
             <LanguageSwitcher />
