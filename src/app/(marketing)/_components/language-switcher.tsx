@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/routing';
+import { LOCALE_LABELS, SUPPORTED_LOCALES, usePathname, useRouter } from '@/i18n/routing';
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function LanguageSwitcher() {
@@ -20,12 +20,11 @@ export default function LanguageSwitcher() {
         <SelectValue />
       </SelectTrigger>
       <SelectPopup>
-        <SelectItem value="zh">中文</SelectItem>
-        <SelectItem value="en">English</SelectItem>
-        <SelectItem value="th">ไทย</SelectItem>
-        <SelectItem value="vi">Tiếng Việt</SelectItem>
-        <SelectItem value="es">Español</SelectItem>
-        <SelectItem value="pt">Português</SelectItem>
+        {SUPPORTED_LOCALES.map((locale) => (
+          <SelectItem key={locale} value={locale}>
+            {LOCALE_LABELS[locale]}
+          </SelectItem>
+        ))}
       </SelectPopup>
     </Select>
   );

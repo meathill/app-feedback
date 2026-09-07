@@ -33,6 +33,21 @@ interface FeedbackState {
   translateFeedback: (id: number) => Promise<void>;
 }
 
+interface FeedbackPatch {
+  status?: FeedbackStatus;
+  notes?: string;
+  tags?: string[];
+}
+
+async function patchFeedback(id: number, patch: FeedbackPatch, errorMessage: string): Promise<void> {
+  const res = await fetch(`/api/feedbacks/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(patch),
+  });
+  if (!res.ok) throw new Error(errorMessage);
+}
+
 export const useFeedbackStore = create<FeedbackState>((set, get) => ({
   feedbacks: [],
   total: 0,
@@ -132,12 +147,7 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
 
   async updateFeedbackStatus(id: number, status: FeedbackStatus) {
     try {
-      const res = await fetch(`/api/feedbacks/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
-      });
-      if (!res.ok) throw new Error('Failed to update status');
+      await patchFeedback(id, { status }, 'Failed to update status');
       await get().fetchFeedbacks();
     } catch (error) {
       set({ error: (error as Error).message });
@@ -177,12 +187,7 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
 
   async updateFeedbackNotes(id: number, notes: string) {
     try {
-      const res = await fetch(`/api/feedbacks/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ notes }),
-      });
-      if (!res.ok) throw new Error('Failed to update notes');
+      await patchFeedback(id, { notes }, 'Failed to update notes');
       await get().fetchFeedbacks();
     } catch (error) {
       set({ error: (error as Error).message });
@@ -191,12 +196,7 @@ export const useFeedbackStore = create<FeedbackState>((set, get) => ({
 
   async updateFeedbackTags(id: number, tags: string[]) {
     try {
-      const res = await fetch(`/api/feedbacks/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tags }),
-      });
-      if (!res.ok) throw new Error('Failed to update tags');
+      await patchFeedback(id, { tags }, 'Failed to update tags');
       await get().fetchFeedbacks();
     } catch (error) {
       set({ error: (error as Error).message });

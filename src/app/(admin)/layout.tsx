@@ -4,6 +4,7 @@ import '../globals.css';
 import { cn } from '@/lib/utils';
 import { cookies } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
+import { DEFAULT_LOCALE } from '@/i18n/routing';
 
 const interHeading = Inter({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -31,7 +32,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = await cookies();
-  const locale = cookieStore.get('NEXT_LOCALE')?.value || 'zh';
+  const locale = cookieStore.get('NEXT_LOCALE')?.value || DEFAULT_LOCALE;
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
