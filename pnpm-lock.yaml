@@ -30,11 +30,11 @@ importers:
         specifier: ^1.14.0
         version: 1.14.0(react@19.2.8)
       meathill-brand:
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       meathill-brand-react:
-        specifier: ^0.1.0
-        version: 0.1.0(meathill-brand@0.1.0)(react@19.2.8)
+        specifier: ^0.2.0
+        version: 0.2.0(meathill-brand@0.2.0)(react@19.2.8)
       next:
         specifier: ^16.3.4
         version: 16.3.4(@types/node@25.5.2)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -2738,14 +2738,14 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  meathill-brand-react@0.1.0:
-    resolution: {integrity: sha512-VWLUT5z3M3cXjRKNv5vHHOgAmBmfo9gjFceYLSK5APYgGC0ckHtgrfhT5o5HwbISkscjtbv45fSLEHaTp4O7rg==}
+  meathill-brand-react@0.2.0:
+    resolution: {integrity: sha512-13w4rTe9QmZv8eOA3RkFp+Ev7yFBHk9Ua8l6kNvSFyWQ+oqG1zmIc2Ad431p4IhWAl/gVDmH3HhlDtkVdYK7zg==}
     peerDependencies:
-      meathill-brand: ^0.1.0
+      meathill-brand: ^0.2.0
       react: '>=18'
 
-  meathill-brand@0.1.0:
-    resolution: {integrity: sha512-ua09wnW8UeGtmkFESdPse6xnjq2Ixny4Qjlobp+nTUk9CBigx+Jb0Bp0xk58MxVlstDAeErGqi6GAl7+9kOpuw==}
+  meathill-brand@0.2.0:
+    resolution: {integrity: sha512-yV8OUeZkPinPn/fqrMGQdqncq6q8l09XX0/k7wVpnMV9a0y2hBwnaGR1hOoCaJCcDwIaiPD1Paiz9GRV039glQ==}
 
   media-typer@1.1.1:
     resolution: {integrity: sha512-yz3xRaG20c6/BOzvYoDaGtPmGscs7YivItZEEqe6GbwNfHuxu9YNmvnEkMzKldAGY4/80pRcQRZSEnhquk9XuQ==}
@@ -5986,12 +5986,12 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  meathill-brand-react@0.1.0(meathill-brand@0.1.0)(react@19.2.8):
+  meathill-brand-react@0.2.0(meathill-brand@0.2.0)(react@19.2.8):
     dependencies:
-      meathill-brand: 0.1.0
+      meathill-brand: 0.2.0
       react: 19.2.8
 
-  meathill-brand@0.1.0: {}
+  meathill-brand@0.2.0: {}
 
   media-typer@1.1.1: {}
 
@@ -6488,8 +6488,8 @@ snapshots:
 
   tinyglobby@0.2.16:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
 
   tinyrainbow@3.1.0: {}
 
@@ -6544,8 +6544,8 @@ snapshots:
   vite@7.2.7(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.16.9)(yaml@2.9.0):
     dependencies:
       esbuild: 0.25.12
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
       postcss: 8.5.23
       rollup: 4.60.3
       tinyglobby: 0.2.16
